@@ -1,0 +1,21 @@
+#objフォルダ無視
+sunaGame000/sunaGame2021_1/obj/
+
+#Buildフォルダ無視
+Build/
+
+#.vsフォルダ無視
+sunaGame000/sunaGame2021_1/.vs/
+
+#.sln .csprojを無視
+sunaGame000/sunaGame2021_1/*.sln
+sunaGame000/sunaGame2021_1/*.csproj
+
+#Libraryフォルダ無視
+sunaGame000/sunaGame2021_1/Library/
+
+#Tempフォルダ無視
+sunaGame000/sunaGame2021_1/Temp/
+
+#３Dアセット無視
+sunaGame000/sunaGame2021_1/Assets/3DAssets/
