@@ -1,0 +1,52 @@
+<!doctype html>
+
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        
+        <link rel="stylesheet" type="text/css" href="../styles.css">
+        <title>砂の鶏のシステム</title>
+    </head> 
+
+    <body> 
+        <h1>SceneLoaderクラス</h1> 
+        
+        <h3>概要</h3>
+        <p>
+            シーン遷移のクラス。UnityEngine.SceneManagement.SceneManager.LoadScene()の<br>
+           代わりに使うことでシーン遷移の際フェードイン/フェードアウトを行います<br>
+           ※UnityEngine.SceneManagement.SceneManager.LoadScene()と併用しないでください。
+        </p><br>
+        
+        <h3>変数</h3>
+        <table border="1">
+            <tr><th>変数名      </th><th>変数型</th><th> 説明  　　　　　　　　　　　 </th></tr>
+            <tr><th>IsFade     </th><th>bool </th><th> フェード中か否か?  　　　　　</th></tr>
+            <tr><th>Fadeings   </th><th>float</th><th> フェードどのくらいか?<br>(フェードアウト開始時 = -1)<br>(フェードイン終了時 = 1)<br> (シーン遷移時 = 0)</th></tr>
+            <tr><th>FadeColor  </th><th>Color</th><th> フェードする色             </th></tr> 
+            <tr><th>FadeInTime </th><th>float</th><th> フェードインの時間(/sec)　  </th></tr> 
+            <tr><th>FadeOutTime</th><th>float</th><th> フェードアウトの時間(/sec)  </th></tr>  
+        </table><br> 
+          
+
+        <h3>関数</h3>
+        
+        <p>引数はint型,string型。string型はシーン名、int型はシーンの番号</p> 
+        <table border="1">
+            <tr><th>関数名  </th><th>戻り値</th><th> 引数  </th><th>              説明                </th></tr>
+            <tr><th>LoadN  </th><th>void </th><th> --   </th><th> フェードイン/フェードアウトなしの遷移 </th></tr>
+            <tr><th>Load   </th><th>void </th><th> --   </th><th> 単色のフェードイン/フェードアウト     </th></tr>
+            <tr><th>Load_DX</th><th>void </th><th> --   </th><th> ちょいおしゃれな遷移(未実装)         </th></tr> 
+        </table><br>
+         
+        
+        <br><br>
+        <a href="../index.html">戻る</a>
+        <br><br><footer>  2019 &copy; すなにわ </footer>
+    </body> 
+</html>
+ 
+  
+   
+ 
