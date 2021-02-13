@@ -4,21 +4,18 @@ public class CameraMove : MonoBehaviour
 {
     public Transform target;
     public float sensivirity;
-    Vector3 c;
+    public float distance;
+    Vector2 cv;
 
     void Start() => Update();
 
     void Update()
     {
         var vv = Time.deltaTime * sensivirity;
-        transform.position += target.transform.position - c;
-        c = target.transform.position;
-
-        if (Input.GetMouseButton(1))
-        {
-            Vector2 JS_R = Key.JoyStickR; 
-            transform.RotateAround(c, Vector3.up, JS_R.x);
-            transform.RotateAround(c, transform.right, JS_R.y);
-        }
+        transform.position = target.position - target.forward * distance;
+        transform.LookAt(target); 
+        cv += (Vector2)Key.JoyStickR;
+        transform.RotateAround(target.position, Vector3.up,    cv.x);
+        transform.RotateAround(target.position, Vector3.right, cv.y);
     }
 }
