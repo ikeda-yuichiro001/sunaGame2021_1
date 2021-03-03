@@ -53,7 +53,7 @@ public class status : MonoBehaviour
 
     void Update()
     {
-        Keydamegemove();        
+        Keydamegemove();
 
     }
 }
