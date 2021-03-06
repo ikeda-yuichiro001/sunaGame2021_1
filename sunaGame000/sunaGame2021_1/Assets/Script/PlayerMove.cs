@@ -30,6 +30,8 @@ public class PlayerMove : MonoBehaviour
         //キー検知 ==========================================================
         var c = (Vector2)Key.JoyStickL;
         var r = (Vector2)Key.JoyStickR;
+        
+        
         //地面検知 ==========================================================
         RaycastHit rr;
         var __IsGround = Physics.Raycast(transform.position, Vector3.down, out rr, IsGroundThreshold);
@@ -53,13 +55,16 @@ public class PlayerMove : MonoBehaviour
         }
 
         IsGround = __IsGround;
-        //移動 ==============================================================
-        transform.rotation = Quaternion.Lerp(UsingCamera.rotation, UsingCamera.rotation * Quaternion.Euler(0, 90, 0), c.x);
 
+
+
+
+        //移動 ==============================================================
         if (Mathf.Abs(c.x) > 0.2 || Mathf.Abs(c.y) > 0.2)
         { 
-            transform.LookAt(transform.position + new Vector3(-UsingCamera.right.x, 0, UsingCamera.forward.z));
-            transform.Translate(Key.JoyStickL.Get.x, 0, Key.JoyStickL.Get.y, Space.Self); 
+            transform.LookAt (transform.position + new Vector3(-UsingCamera.right.x, 0, UsingCamera.forward.z));
+            transform.rotation = Quaternion.Lerp(UsingCamera.rotation, UsingCamera.rotation * Quaternion.Euler(0, 90, 0), c.x);
+            transform.Translate(Key.JoyStickL.Get.x, 0, Key.JoyStickL.Get.y, Space.Self);
         }
 
 
