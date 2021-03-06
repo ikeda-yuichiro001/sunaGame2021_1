@@ -32,7 +32,6 @@ public class status : MonoBehaviour
 
     public void Keydamegemove()
     {
-        //Xbox用のキー操作Key.A;
         if (Input.GetKeyDown(KeyCode.D))
         {
             HPmove(-10);

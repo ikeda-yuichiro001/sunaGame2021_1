@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
@@ -6,7 +7,10 @@ public class Item : MonoBehaviour
     public GameObject A_rist;
     public GameObject B_rist;
     public GameObject C_rist;
-    int A_s , B_s, C_s ;
+    public Text A_count;
+    public Text B_count;
+    public Text C_count;
+    public int A_s, B_s, C_s;
 
     void Start()
     {
@@ -14,40 +18,50 @@ public class Item : MonoBehaviour
         if (A_s == 0) A_rist.SetActive(false);
         if (B_s == 0) B_rist.SetActive(false);
         if (C_s == 0) C_rist.SetActive(false);
-
     }
 
     void Update()
     {
-        if (Input.GetKeyDown("i"))
+        if (Input.GetKeyDown(KeyCode.A)) A_s += 1;
+        if (Input.GetKeyDown(KeyCode.B)) B_s += 1;
+        if (Input.GetKeyDown(KeyCode.C)) C_s += 1;
+
+        if (Input.GetKeyDown(KeyCode.R))
         {
             itemran.SetActive(true);
 
-            A_s = 1;//アイテムの個数を定義（今回は仮に1個を想定）
-            B_s = 1;
-            C_s = 1;
+            if (A_s >= 1)
+            {
+                A_rist.SetActive(true);
+                A_count.text = A_s.ToString() + " 個";
 
-            if (A_s >= 1 )A_rist.SetActive(true);//アイテムが1個以上の時に表示する以下も同じ
-            if (B_s >= 1) B_rist.SetActive(true);
-            if (C_s >= 1) C_rist.SetActive(true);
+            }
+
+            if (B_s >= 1)
+            {
+                B_rist.SetActive(true);
+                B_count.text = B_s.ToString() + " 個";
+            }
+                if (C_s >= 1)
+            {
+                C_rist.SetActive(true);
+                C_count.text = C_s.ToString() + " 個";
+            }
         }
 
-        if (Input.GetKeyDown("r"))
-
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            itemran.SetActive(false);
-
-            A_s = 0;
-            B_s = 0;
-            C_s = 0;
 
             if (A_s == 0) A_rist.SetActive(false);
             if (B_s == 0) B_rist.SetActive(false);
             if (C_s == 0) C_rist.SetActive(false);
-        }
-    }
 
-    //アイテムを合成とかの機能が欲しい
-    //アイテムの個数を表示したい
-    //画面サイズに合わせたアイテム欄の表示をさせたい
+            itemran.SetActive(false);
+        }
+
+        //アイテムを合成とかの機能が欲しい
+        //アイテムの個数を表示したい ⇒　一度storing型にしてtextに表示してるのでそのあといじれない・・
+        //画面サイズに合わせたアイテム欄の表示をさせたい　⇒　キャンバスのスケール調整で対応
+    }
 }
+
