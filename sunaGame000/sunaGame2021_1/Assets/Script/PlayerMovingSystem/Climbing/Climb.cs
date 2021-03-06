@@ -2,7 +2,8 @@
 using UnityEngine;
 
 public class Climb : MonoBehaviour
-{ 
+{
+    public Color GizmoColor = new Color(0, 0, 0, 1);
     public float searchGap;
     public float searchheight;
     public float searchheight_min;
@@ -88,7 +89,7 @@ public class Climb : MonoBehaviour
     {
         LIMIT();
         if(!UnityEditor.EditorApplication.isPlaying) Update();
-        Gizmos.color = Color.black;
+        Gizmos.color = GizmoColor;
         Vector3[] p = GetPoint;
        
         for (int r = 0; r < confirmation.lap; r++)
