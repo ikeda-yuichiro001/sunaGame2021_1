@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class Item : MonoBehaviour
 {
     public GameObject itemran;
+    public GameObject itemname;
     public GameObject A_rist;
     public GameObject B_rist;
     public GameObject C_rist;
@@ -14,21 +15,25 @@ public class Item : MonoBehaviour
 
     void Start()
     {
-        itemran.SetActive(false); //起動時にアイテムの欄自体を非表示に
-        if (A_s == 0) A_rist.SetActive(false);
-        if (B_s == 0) B_rist.SetActive(false);
-        if (C_s == 0) C_rist.SetActive(false);
+        itemran.SetActive(false); //起動時にアイテムの欄全体を非表示に
+        itemname.SetActive(false);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A)) A_s += 1;
+
+        if (A_s == 0) A_rist.SetActive(false); //アイテムがなくなったときは常に表示しないようにする
+        if (B_s == 0) B_rist.SetActive(false);
+        if (C_s == 0) C_rist.SetActive(false);
+
+        if (Input.GetKeyDown(KeyCode.A)) A_s += 1;//アイテムの個数を1個づつ増やす実際のプレイには非搭載
         if (Input.GetKeyDown(KeyCode.B)) B_s += 1;
         if (Input.GetKeyDown(KeyCode.C)) C_s += 1;
 
         if (Input.GetKeyDown(KeyCode.R))
         {
             itemran.SetActive(true);
+            itemname.SetActive(true);
 
             if (A_s >= 1)
             {
@@ -52,11 +57,12 @@ public class Item : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
 
-            if (A_s == 0) A_rist.SetActive(false);
-            if (B_s == 0) B_rist.SetActive(false);
-            if (C_s == 0) C_rist.SetActive(false);
+            A_rist.SetActive(false);
+            B_rist.SetActive(false);
+            C_rist.SetActive(false);
 
             itemran.SetActive(false);
+            itemname.SetActive(false);
         }
 
         //アイテムを合成とかの機能が欲しい
