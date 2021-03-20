@@ -23,11 +23,14 @@ public class PlayerMove : MonoBehaviour
     public float spinSpeed = 6.60f;
     public float runSpeed  = 0.40f;
     public bool IsJamp;
+    public float SquatDownMove;
     public float jumppings, jumppingPower, failSpeed;
     public Animator animator;
-
-    float csq;
-
+    public int Squat_point;
+    [Range(0.1f,4f)]
+    public float SquatSpeed;
+    public float csq;
+    public Transform hipBone;
     void Start()
     {
         status = GetComponent<status>();
@@ -53,9 +56,9 @@ public class PlayerMove : MonoBehaviour
         {
             case PlayerState.WAIT:
                 if (jamp) JumppingMove();
-                if ((Mathf.Abs(c.x) > 0.2 || Mathf.Abs(c.y) > 0.2))
+                else if ((Mathf.Abs(c.x) > 0.2 || Mathf.Abs(c.y) > 0.2))
                     State = PlayerState.WALK;
-                if (sq)
+                else if (sq)
                 {
                     State = PlayerState.SQUAT;
                     animator?.SetBool("_SQUAT_", true);
@@ -113,39 +116,57 @@ public class PlayerMove : MonoBehaviour
                 break;
 
             case PlayerState.FAIL:
-                RaycastHit xx;
-                Physics.Raycast(transform.position, Vector3.down, out xx, 100000000000000000) ;
-
-                if (xx.distance >= failSpeed * Time.deltaTime)// + IsGroundThreshold)
-                { 
-                    transform.position -= Vector3.up * (failSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    transform.position -= Vector3.up * (xx.distance - IsGroundThreshold + 0.01f);
-                    State = PlayerState.WAIT;
-                }
+                IsGravity();
                 break;
 
+            
             case PlayerState.SQUAT:
-                csq += Time.deltaTime;
-                if (csq > 3)
-                    if (sq)
-                    {
-                        csq = 0;
-                        animator?.SetBool("_SQUAT_", false);
-                        State = PlayerState.WAIT;
-                    }
+                csq += Time.deltaTime * SquatSpeed;
+                switch (Squat_point)
+                {
+                    case 0:
+                        hipBone?.Translate(SquatDownMove * Time.deltaTime * Vector3.down, Space.World); 
+                        if (csq >= 1) Squat_point = 1; 
+                        break;
+
+
+                    case 1:
+                        if (Key.B.Down)
+                        {
+                            Squat_point = 2;
+                            csq = 0;
+                            animator?.SetBool("_SQUAT_", false); 
+                        }
+                        break;
+
+                    case 2:
+                        hipBone?.Translate(SquatDownMove * Time.deltaTime * Vector3.up, Space.World);
+                        if (csq > 1 )
+                        {
+                            transform.position += SquatDownMove * Time.deltaTime * Vector3.up;
+                            csq = 0;
+                            Squat_point = 0;
+                            State = PlayerState.WAIT;
+                        } 
+                        break;
+                } 
                 break;
+            
                 
             default:
                 break;
+
+
         }
+
+
+
+
 
         //地面検知 ==========================================================
         RaycastHit rr;
         var __IsGround = Physics.Raycast(transform.position, Vector3.down, out rr, IsGroundThreshold);
-        if (State != PlayerState.JUMP)
+        if (State != PlayerState.JUMP || State != PlayerState.SQUAT)
         { 
             if (IsGround != __IsGround)
             {
@@ -174,7 +195,7 @@ public class PlayerMove : MonoBehaviour
         {
             State = PlayerState.FAIL;
         }
-
+        Debug.Log("squatPoint" + Squat_point);
     }
     void JumppingMove()
     {
@@ -185,7 +206,22 @@ public class PlayerMove : MonoBehaviour
             jumppings = 0;
         }
     }
-     
+
+    void IsGravity()
+    {
+        RaycastHit xx;
+        Physics.Raycast(transform.position, Vector3.down, out xx, 100000000000000000);
+
+        if (xx.distance >= failSpeed * Time.deltaTime)// + IsGroundThreshold)
+        {
+            transform.position -= Vector3.up * (failSpeed * Time.deltaTime);
+        }
+        else
+        {
+            transform.position -= Vector3.up * (xx.distance - IsGroundThreshold + 0.01f);
+            State = PlayerState.WAIT;
+        }
+    }
 
     public enum PlayerState
     {
@@ -199,22 +235,20 @@ public class PlayerMove : MonoBehaviour
 }
 
 
-
-
-
+//next-------------------------
 //しゃがむ  
-
-//3/20 ---------
-//走るアニメーション
 //座る
+//障害物検知
+//階段・斜面
+
+
+//n2-------------------------
 //段差登る
 //はしご
 
-//3/27-------------------
-//階段
-//斜面
-
-//それいこう-----------------------------------
+//af-------------------------
+//走るアニメーション
 //アニメーションのブラッシュアップ
 //操作性向上
 //最終的な仕上げ
+//モーションキャンセル
