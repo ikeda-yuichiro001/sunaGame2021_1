@@ -17,18 +17,25 @@ public class Item : MonoBehaviour
     {
         itemran.SetActive(false); //起動時にアイテムの欄全体を非表示に
         itemname.SetActive(false);
+        if (A_s == 0) A_rist.SetActive(false); 
+        if (B_s == 0) B_rist.SetActive(false);
+        if (C_s == 0) C_rist.SetActive(false);
     }
 
     void Update()
     {
 
-        if (A_s == 0) A_rist.SetActive(false); //アイテムがなくなったときは常に表示しないようにする
-        if (B_s == 0) B_rist.SetActive(false);
-        if (C_s == 0) C_rist.SetActive(false);
+        //if (A_s == 0) A_rist.SetActive(false); //アイテムがなくなったときは常に表示しないようにする
+        //if (B_s == 0) B_rist.SetActive(false);
+        //if (C_s == 0) C_rist.SetActive(false);
 
-        if (Input.GetKeyDown(KeyCode.A)) A_s += 1;//アイテムの個数を1個づつ増やす実際のプレイには非搭載
-        if (Input.GetKeyDown(KeyCode.B)) B_s += 1;
-        if (Input.GetKeyDown(KeyCode.C)) C_s += 1;
+        if (Input.GetKeyDown(KeyCode.Q)) A_s += 1;//アイテムの個数を1個づつ増やす実際のプレイには非搭載
+        if (Input.GetKeyDown(KeyCode.A)) B_s += 1;
+        if (Input.GetKeyDown(KeyCode.Z)) C_s += 1;
+
+        if (Input.GetKeyDown(KeyCode.W)) A_s -= 1;//アイテムの個数を1個づつ増やす実際のプレイには非搭載
+        if (Input.GetKeyDown(KeyCode.S)) B_s -= 1;
+        if (Input.GetKeyDown(KeyCode.X)) C_s -= 1;
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -39,7 +46,6 @@ public class Item : MonoBehaviour
             {
                 A_rist.SetActive(true);
                 A_count.text = A_s.ToString() + " 個";
-
             }
 
             if (B_s >= 1)
@@ -47,7 +53,8 @@ public class Item : MonoBehaviour
                 B_rist.SetActive(true);
                 B_count.text = B_s.ToString() + " 個";
             }
-                if (C_s >= 1)
+
+            if (C_s >= 1)
             {
                 C_rist.SetActive(true);
                 C_count.text = C_s.ToString() + " 個";
