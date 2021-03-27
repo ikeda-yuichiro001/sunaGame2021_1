@@ -8,7 +8,13 @@ public class ItemButton_A : MonoBehaviour
 
     public void OnClick()
     {
-        if (item_rigidbody.A_s > 0) A_3D.SetActive(true);
+        if (item_rigidbody.ItemCount[0] > 0)
+        {
+            A_3D.SetActive(true);
+            A_3D.transform.rotation = new Quaternion(0,0,0,0);
+            item_rigidbody.item[1].active = false;
+            item_rigidbody.item[2].active = false;
+        }
     }
 
     public void Start()
