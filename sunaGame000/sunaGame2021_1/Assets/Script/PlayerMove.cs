@@ -24,13 +24,14 @@ public class PlayerMove : MonoBehaviour
     public float runSpeed  = 0.40f;
     public bool IsJamp;
     public float SquatDownMove;
-    public float jumppings, jumppingPower, failSpeed;
+    public float jumppings, jumppingPower, jumpSpeed, failSpeed;
     public Animator animator;
     public int Squat_point;
     [Range(0.1f,4f)]
     public float SquatSpeed;
     public float csq;
     public Transform hipBone;
+
     void Start()
     {
         status = GetComponent<status>();
@@ -99,8 +100,8 @@ public class PlayerMove : MonoBehaviour
 
             case PlayerState.JUMP:
 
-                var Lj = Mathf.Sin(jumppings / 2);
-                jumppings += Time.deltaTime *5;
+                var Lj = Mathf.Sin(jumppings * jumpSpeed);
+                jumppings += Time.deltaTime;
                 transform.position += Vector3.up * (Mathf.Sin(jumppings / 2) - Lj) * jumppingPower;
                 Vector3 ccv  = ((Mathf.Abs(c.x) > 0.2 || Mathf.Abs(c.y) > 0.2) && (UsingCamera != null)) ?
                     Key.JoyStickL.Get.y * Vector3.Scale(UsingCamera.transform.forward, new Vector3(1, 0, 1)).normalized * moveSpeed + Key.JoyStickL.Get.x * UsingCamera.right * moveSpeed :
@@ -153,10 +154,7 @@ public class PlayerMove : MonoBehaviour
                 break;
             
                 
-            default:
-                break;
-
-
+            default: break;
         }
 
 
@@ -187,16 +185,15 @@ public class PlayerMove : MonoBehaviour
             }
 
             IsGround = __IsGround;
+            if (!IsGround)
+                State = PlayerState.FAIL;
         }
 
-        
-
-        if (!IsGround)
-        {
-            State = PlayerState.FAIL;
-        }
-        Debug.Log("squatPoint" + Squat_point);
     }
+
+
+    void OFFJUMPMOTION() => animator?.SetBool("_JUMP_", false);
+
     void JumppingMove()
     {
         if (IsGround)
@@ -204,24 +201,28 @@ public class PlayerMove : MonoBehaviour
             State = PlayerState.JUMP;
             animator?.SetBool("_JUMP_", true);
             jumppings = 0;
+            Invoke("OFFJUMPMOTION",2);
         }
-    }
+    } 
+
 
     void IsGravity()
     {
         RaycastHit xx;
         Physics.Raycast(transform.position, Vector3.down, out xx, 100000000000000000);
 
-        if (xx.distance >= failSpeed * Time.deltaTime)// + IsGroundThreshold)
+        if (xx.distance >= failSpeed * Time.deltaTime + IsGroundThreshold)
         {
             transform.position -= Vector3.up * (failSpeed * Time.deltaTime);
         }
         else
         {
-            transform.position -= Vector3.up * (xx.distance - IsGroundThreshold + 0.01f);
+            transform.position = xx.point+ Vector3.up * (IsGroundThreshold - 0.01f);
             State = PlayerState.WAIT;
         }
+
     }
+
 
     public enum PlayerState
     {
@@ -232,7 +233,10 @@ public class PlayerMove : MonoBehaviour
         JUMP,
         SQUAT,
     }
+
+
 }
+
 
 
 //next-------------------------
@@ -242,13 +246,14 @@ public class PlayerMove : MonoBehaviour
 //階段・斜面
 
 
-//n2-------------------------
-//段差登る
-//はしご
+//xxxx ------------------------
+// 段差登る
+// はしご
 
-//af-------------------------
-//走るアニメーション
-//アニメーションのブラッシュアップ
-//操作性向上
-//最終的な仕上げ
-//モーションキャンセル
+//af-------------------------------
+// 走るアニメーション
+// アニメーションのブラッシュアップ
+// 操作性向上
+// 最終的な仕上げ
+// モーションキャンセル
+//---------------------------------
