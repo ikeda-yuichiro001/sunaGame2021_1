@@ -27,7 +27,7 @@ public class Item : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S)) ItemCount[1] -= 1;
         if (Input.GetKeyDown(KeyCode.X)) ItemCount[2] -= 1;
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             itemran.SetActive(true);
             itemname.SetActive(true);
